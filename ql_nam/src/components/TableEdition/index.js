@@ -1,6 +1,8 @@
 import React, { Component, useState } from 'react';
 import { withStyles } from '@material-ui/core';
 import MaterialTable from 'material-table';
+import PropTypes from 'prop-types';
+
 import styles from './styles';
 
 const columns = [
@@ -20,13 +22,13 @@ const columns = [
 
 class TableEdition extends Component {
   render() {
-    const { classes, data } = this.props;
+    const { classes, quantity } = this.props;
     return (
       <div className={classes.tableEdition}>
         <MaterialTable
           title="Chỉnh sửa Sản Phẩm"
           columns={columns}
-          data={data}
+          data={quantity}
           options={{
             headerStyle: {
               textAlignLast: 'center',
@@ -74,5 +76,10 @@ class TableEdition extends Component {
     );
   }
 }
+
+TableEdition.propTypes = {
+  classes: PropTypes.object,
+  quantity: PropTypes.array,
+};
 
 export default withStyles(styles)(TableEdition);

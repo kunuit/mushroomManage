@@ -1,30 +1,34 @@
 import React, { Component } from 'react';
 import {
   withStyles,
-  FormControl,
-  InputLabel,
-  Select,
   MenuItem,
   TextField,
   Box,
   Button,
-  Grid,
 } from '@material-ui/core';
-
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
+
 import styles from './styles';
 import TableProduct from '../../components/TableProduct';
 import TableEdition from '../../components/TableEdition';
+import * as farmerActions from '../../actions/farmer.action';
 
 class TaskBoard extends Component {
+  componentDidMount() {
+    const { farmerActionCreators } = this.props;
+    const { fetchListFarmer } = farmerActionCreators;
+    fetchListFarmer();
+  }
+
   renderTableProduct() {
     const { quantity } = this.props;
     let xhtml = null;
     xhtml = (
       <div container>
         <TableProduct quantity={quantity} />
-        <TableEdition data={quantity} />
+        <TableEdition quantity={quantity} />
       </div>
     );
     return xhtml;
@@ -37,8 +41,8 @@ class TaskBoard extends Component {
         <form onSubmit={this.handleChangeUser} className={classes.form}>
           <TextField className={classes.textField} select label="nhà vườn">
             {farmers.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
+              <MenuItem key={option.idFarmer} value={option.name}>
+                {option.name}
               </MenuItem>
             ))}
           </TextField>
@@ -60,6 +64,15 @@ class TaskBoard extends Component {
   }
 }
 
+TaskBoard.propTypes = {
+  classes: PropTypes.object,
+  farmerActionCreators: PropTypes.shape({
+    fetchListFarmer: PropTypes.func,
+  }),
+  farmers: PropTypes.array,
+  quantity: PropTypes.array,
+};
+
 const mapStateToProps = (state) => {
   return {
     farmers: state.task.farmers,
@@ -67,7 +80,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = null;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    farmerActionCreators: bindActionCreators(farmerActions, dispatch),
+  };
+};
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 

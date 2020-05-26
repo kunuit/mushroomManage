@@ -1,5 +1,8 @@
+/* eslint-disable no-console */
+import * as farmerConstants from '../constants/farmers.constant';
+
 const initialState = {
-  farmers: ['thắng', 'chú hùng', 'châu'],
+  farmers: [],
   quantity: [
     {
       date: 1,
@@ -30,6 +33,26 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case farmerConstants.FETCH_FARMERS: {
+      return {
+        ...state,
+        farmers: [],
+      };
+    }
+    case farmerConstants.FETCH_FARMERS_SUCCESS: {
+      const { data } = action.payload;
+      return {
+        ...state,
+        farmers: data,
+      };
+    }
+    case farmerConstants.FETCH_FARMERS_FAIL: {
+      const { err } = action.payload;
+      return {
+        ...state,
+        farmers: [],
+      };
+    }
     default:
       return state;
   }

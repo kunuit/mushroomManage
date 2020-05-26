@@ -9,6 +9,8 @@ import {
   TableBody,
   Paper,
 } from '@material-ui/core';
+import PropTypes from 'prop-types';
+
 import styles from './styles';
 
 class TableProduct extends Component {
@@ -58,5 +60,10 @@ class TableProduct extends Component {
     );
   }
 }
+
+TableProduct.propTypes = {
+  classes: PropTypes.object,
+  quantity: PropTypes.array,
+};
 
 export default withStyles(styles)(TableProduct);
